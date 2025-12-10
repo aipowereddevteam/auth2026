@@ -112,7 +112,12 @@ export class AuthController {
       const accessToken = authHeader ? authHeader.split(' ')[1] : undefined;
 
       await this.authService.logout(refreshToken, accessToken);
-      res.clearCookie('refresh_token');
+      res.clearCookie('refresh_token', {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+      });
+      res.clearCookie('ext_name'); // Clear extension/other cookie
       return { message: 'Logged out successfully' };
   }
 

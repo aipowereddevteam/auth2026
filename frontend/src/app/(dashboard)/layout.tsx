@@ -24,6 +24,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     const logoutMutation = useMutation({
         mutationFn: authApi.logout,
         onSuccess: () => {
+            document.cookie = 'ext_name=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             toast.success('Logged out');
             router.push('/login');
         },
